@@ -32,11 +32,16 @@ class XenditController extends Controller
 
     public function viewTopup()
     {
-        return view('payment.topup');
+        $user = Auth::user();
+        $balance = Balance::where('user_id', Auth::id())->first();
+        return view('payment.topup', compact('balance'));
     }
 
-    public function payoutsView() {
-        return view('payment.payout');
+    public function payoutsView() 
+    {
+        $user = Auth::user();
+        $balance = Balance::where('user_id', Auth::id())->first();
+        return view('payment.payout', compact('balance'));
     }
 
     // Helper function to create Guzzle Client with Basic Auth

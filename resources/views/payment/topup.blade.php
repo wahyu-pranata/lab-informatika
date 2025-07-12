@@ -39,26 +39,50 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-8 text-center">
-                    <div class="mx-auto mb-4">
-                    </div>
-                    <!-- Form for Topup -->
-                    <!-- HATI - HATI BIKIN FORM, BEDA NAME DIKIT = BEDA HASIL PAYLOAD -->
-                    <form id="form" method="POST" class="w-full" enctype="multipart/form-data" action="{{ route('payment.create') }}">
-                        @csrf
-                        <div class="mt-2 text-start">
-                            <label for="amount">Jumlah Topup</label>
-                            <input required type="number" name="amount" min="10000"id="amount" placeholder="Rp: 6900"
-                                class="w-full p-2 border border-gray-300" />
-                            @error('Input Jumlah Token')
-                                <span class="text-red-500 block text-xs">{{ $message }}</span>
-                            @enderror
-                        </div>
-                        <div class="mt-4">
-                            <button type="submit" class="p-2 text-black border-1 rounded-lg  bg-sky-500 hover:bg-sky-600 ">Confirm</button>
-                        </div>
-                        <div class="mt-2 text-start">
+                    <h1 class="display-4">Top Up</h1>
+                    <p class="lead">Top Up balance to your account</p>
+                    <p class="lead">Jumlah Saldo akun anda: @if($balance)
+                        {{ $balance->amount }}
+                    @else
+                            0
+                        @endif
+                    </p>
                 </div>
             </div>
+    
+            <!-- Form for Withdraw -->
+            <form id="form" method="POST" enctype="multipart/form-data" action="{{ route('payment.create') }}">
+                @csrf
+    
+                <!-- Quick Select Dropdown -->
+                <div class="mt-2 text-start">
+                    <label for="quick_amount" class="form-label">Pilih Jumlah</label>
+                    <select id="quick_amount" class="form-control" onchange="updateCustomAmount()">
+                        <option value="">-- Pilih --</option>
+                        <option value="10000">Rp 10.000</option>
+                        <option value="25000">Rp 25.000</option>
+                        <option value="50000">Rp 50.000</option>
+                        <option value="100000">Rp 100.000</option>
+                        <option value="manual">→ Masukkan jumlah manual</option> <!-- Manual Option -->
+                    </select>
+                </div>
+    
+                <!-- Manual Amount Input (Hidden by Default) -->
+                <div id="manual_amount_container" class="mt-3 text-start d-none">
+                    <label for="manual_amount" class="form-label">Jumlah Manual</label>
+                    <input type="number" id="manual_amount" min="10000" placeholder="ex: 69000" class="form-control" />
+                </div>
+    
+                <!-- Final Hidden Input to Submit Selected Amount -->
+                <input type="hidden" name="amount" id="amount" />
+    
+                <!-- Submit Button -->
+                <div class="mt-4 text-center">
+                    <button type="submit" class="btn btn-primary px-4 py-2 rounded-lg bg-sky-500 hover:bg-sky-600">
+                        Confirm
+                    </button>
+                </div>
+            </form>
         </div>
     </section>
     
@@ -72,6 +96,6 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
     
-    <!--    <script src="{{ asset('js/dashboard.js') }}"></script> -->
+    <script src="{{ asset('js/topup.js') }}"></script> 
     
 </body><grammarly-desktop-integration data-grammarly-shadow-root="true"></grammarly-desktop-integration></html>
